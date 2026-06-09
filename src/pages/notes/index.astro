@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EntryCard from '../../components/EntryCard.astro';
+import { byNewest, formatDate, visible } from '../../utils/content';
+
+const notes = visible(await getCollection('notes')).sort(byNewest);
+---
+
+<BaseLayout title="Notes" description="持续更新的学习笔记。" path="/notes">
+  <section class="shell page-header">
+    <div>
+      <p class="eyebrow">Notes</p>
+      <h1>学习笔记</h1>
+    </div>
+    <p>Notes 是更轻的知识记录，允许阶段性、不完整和持续修订。它们不追求文章式完整结论。</p>
+  </section>
+
+  <section class="section shell">
+    <div class="content-list">
+      {notes.map((note, index) => (
+        <EntryCard
+          index={index + 1}
+          kind="Note"
+          title={note.data.title}
+          summary={note.data.summary}
+          href={`/notes/${note.id}`}
+          date={formatDate(note.data.updatedAt)}
+          meta={note.data.topic}
+          tags={note.data.tags}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

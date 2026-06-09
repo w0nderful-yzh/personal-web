@@ -1,0 +1,263 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { resume } from '../data/resume';
+---
+
+<BaseLayout title="Resume" description="YZH 的网页简历。" path="/resume">
+  <section class="resume shell">
+    <header>
+      <div>
+        <p class="eyebrow">Resume</p>
+        <h1>{resume.name}</h1>
+        <p class="role">{resume.role}</p>
+      </div>
+      <div class="actions no-print">
+        <button class="button-link" onclick="window.print()">打印简历</button>
+        <a class="button-link secondary" href="/resume.pdf">下载 PDF</a>
+      </div>
+    </header>
+
+    <div class="resume-grid">
+      <aside>
+        <section>
+          <h2>Contact</h2>
+          <ul class="plain-list">
+            {resume.contacts.map((item) => (
+              <li>
+                <span>{item.label}</span>
+                <a href={item.href}>{item.value}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section>
+          <h2>Skills</h2>
+          <ul class="skill-list">
+            {resume.skills.map((skill) => <li>{skill}</li>)}
+          </ul>
+        </section>
+      </aside>
+
+      <div class="resume-main">
+        <section>
+          <h2>Profile</h2>
+          <p>{resume.summary}</p>
+        </section>
+
+        <section>
+          <h2>Experience</h2>
+          {resume.experience.map((item) => (
+            <article>
+              <div class="entry-heading">
+                <div>
+                  <h3>{item.role}</h3>
+                  <p class="org">{item.org}</p>
+                </div>
+                <time>{item.period}</time>
+              </div>
+              <ul>
+                {item.points.map((point) => <li>{point}</li>)}
+              </ul>
+            </article>
+          ))}
+        </section>
+
+        <section>
+          <h2>Education</h2>
+          {resume.education.map((item) => (
+            <article class="entry-heading">
+              <div>
+                <h3>{item.school}</h3>
+                <p class="org">{item.degree}</p>
+              </div>
+              <time>{item.period}</time>
+            </article>
+          ))}
+        </section>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .resume {
+    padding-block: 56px 96px;
+  }
+
+  header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+    padding-bottom: 28px;
+    border-bottom: 2px solid var(--text);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2.8rem, 8vw, 5rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+  }
+
+  .role {
+    margin: 14px 0 0;
+    color: var(--blue);
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  button.button-link {
+    cursor: pointer;
+  }
+
+  .resume-grid {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: clamp(40px, 7vw, 88px);
+    padding-top: 40px;
+  }
+
+  section + section {
+    margin-top: 40px;
+  }
+
+  h2 {
+    margin: 0 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+  }
+
+  .plain-list,
+  .skill-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .plain-list {
+    display: grid;
+    gap: 14px;
+  }
+
+  .plain-list span,
+  .plain-list a {
+    display: block;
+  }
+
+  .plain-list span {
+    margin-bottom: 3px;
+    color: var(--text-tertiary);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+  }
+
+  .plain-list a {
+    overflow-wrap: anywhere;
+    font-size: 0.85rem;
+    color: var(--blue);
+  }
+
+  .skill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .skill-list li {
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--bg-subtle);
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+  }
+
+  .resume-main section > p,
+  article li {
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+
+  article ul {
+    padding-left: 20px;
+  }
+
+  article li {
+    margin-bottom: 6px;
+  }
+
+  .entry-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  article + article {
+    margin-top: 28px;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+
+  .org {
+    margin: 4px 0 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+
+  time {
+    flex: none;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+  }
+
+  @media (max-width: 760px) {
+    header,
+    .entry-heading {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .resume-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media print {
+    .resume {
+      padding: 0;
+    }
+
+    h1 {
+      font-size: 48px;
+    }
+
+    .resume-grid {
+      grid-template-columns: 200px 1fr;
+      gap: 32px;
+    }
+  }
+</style>

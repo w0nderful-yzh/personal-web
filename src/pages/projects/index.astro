@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EntryCard from '../../components/EntryCard.astro';
+import { byNewest, formatDate, visible } from '../../utils/content';
+
+const projects = visible(await getCollection('projects')).sort(byNewest);
+---
+
+<BaseLayout title="Projects" description="项目展示与工程案例。" path="/projects">
+  <section class="shell page-header">
+    <div>
+      <p class="eyebrow">Projects</p>
+      <h1>项目展示</h1>
+    </div>
+    <p>这里记录能代表工程能力的项目：背景、职责、技术决策和复盘都应该比技术栈列表更重要。</p>
+  </section>
+
+  <section class="section shell">
+    <div class="content-list">
+      {projects.map((project, index) => (
+        <EntryCard
+          index={index + 1}
+          kind="Project"
+          title={project.data.title}
+          summary={project.data.summary}
+          href={`/projects/${project.id}`}
+          date={formatDate(project.data.date)}
+          meta={project.data.status}
+          tags={project.data.technologies}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

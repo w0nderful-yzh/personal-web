@@ -1,0 +1,43 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+import { buildSeo } from '../utils/seo';
+
+type Props = {
+  title?: string;
+  description?: string;
+  path?: string;
+  immersive?: boolean;
+  themeColor?: string;
+};
+
+const { immersive = false, themeColor = '#ffffff' } = Astro.props;
+const seo = buildSeo(Astro.props);
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={seo.description} />
+    <meta name="theme-color" content={themeColor} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title="YZH Blog RSS" href="/rss.xml" />
+    <link rel="canonical" href={seo.url} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={seo.title} />
+    <meta property="og:description" content={seo.description} />
+    <meta property="og:url" content={seo.url} />
+    <title>{seo.title}</title>
+  </head>
+  <body class:list={{ immersive }}>
+    {!immersive && <Header />}
+    <main class:list={{ 'immersive-main': immersive }}>
+      <slot />
+    </main>
+    {!immersive && <Footer />}
+  </body>
+</html>

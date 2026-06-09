@@ -1,0 +1,214 @@
+---
+const pathname = Astro.url.pathname;
+const menuItems = [
+  { label: '关于我', href: '/about' },
+  { label: '项目', href: '/projects' },
+  { label: '博客', href: '/blog' },
+  { label: '笔记', href: '/notes' },
+  { label: '游戏', href: '/playground' },
+];
+---
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="返回桌面">
+      <span class="brand-mark" aria-hidden="true">
+        <i></i><i></i><i></i><i></i>
+      </span>
+      <strong>Desktop</strong>
+    </a>
+
+    <nav aria-label="主导航">
+      <ul>
+        {menuItems.map((item) => {
+          const active = pathname.startsWith(item.href);
+          return (
+            <li>
+              <a href={item.href} aria-current={active ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+
+    <div class="desktop-status" aria-label="在线状态">
+      <i></i>
+      <span>Available</span>
+      <time data-header-time>周二 21:57</time>
+    </div>
+  </div>
+</header>
+
+<script>
+  const updateHeaderTime = () => {
+    const clock = document.querySelector<HTMLElement>("[data-header-time]");
+    if (!clock) return;
+
+    clock.textContent = new Intl.DateTimeFormat("zh-CN", {
+      weekday: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    })
+      .format(new Date())
+      .replace(/\s/g, " ");
+  };
+
+  updateHeaderTime();
+  window.setInterval(updateHeaderTime, 30_000);
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    color: #f7f5ef;
+    background: rgba(5, 16, 28, 0.94);
+    box-shadow: 0 8px 24px rgba(6, 19, 31, 0.1);
+    backdrop-filter: blur(22px) saturate(1.35);
+    -webkit-backdrop-filter: blur(22px) saturate(1.35);
+  }
+
+  .header-inner {
+    min-height: 38px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-inline: 18px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    flex: none;
+    gap: 9px;
+    color: rgba(255, 255, 255, 0.92);
+    text-decoration: none;
+    transition: opacity 200ms ease;
+  }
+
+  .brand:hover {
+    color: #fff;
+    opacity: 0.86;
+  }
+
+  .brand-mark {
+    display: grid;
+    width: 24px;
+    height: 24px;
+    grid-template-columns: repeat(2, 4px);
+    grid-template-rows: repeat(2, 4px);
+    gap: 2px;
+    place-items: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+  }
+
+  .brand-mark i {
+    width: 4px;
+    height: 4px;
+    border-radius: 1px;
+    background: currentColor;
+  }
+
+  .brand strong {
+    font-size: 0.68rem;
+    font-weight: 600;
+  }
+
+  nav {
+    min-width: 0;
+  }
+
+  nav ul {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  nav a {
+    display: block;
+    padding: 5px 9px;
+    border-radius: 6px;
+    font-size: 0.66rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.6);
+    transition: all 200ms ease;
+  }
+
+  nav a:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  nav a[aria-current='page'] {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+    font-weight: 600;
+  }
+
+  .desktop-status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-left: auto;
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.62rem;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 180ms ease;
+  }
+
+  .desktop-status:hover {
+    color: #fff;
+  }
+
+  .desktop-status i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #65e6a5;
+    box-shadow: 0 0 9px rgba(101, 230, 165, 0.65);
+  }
+
+  @media (max-width: 760px) {
+    .header-inner {
+      min-height: 38px;
+      gap: 9px;
+      padding-inline: 12px;
+    }
+
+    nav {
+      flex: 1;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    nav ul {
+      width: max-content;
+    }
+
+    nav a {
+      padding-inline: 7px;
+      font-size: 0.62rem;
+    }
+
+    .desktop-status {
+      display: none;
+    }
+  }
+</style>

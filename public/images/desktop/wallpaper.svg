@@ -1,0 +1,50 @@
+<svg width="1920" height="1200" viewBox="0 0 1920 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="base" x1="217" y1="45" x2="1668" y2="1188" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#071A2E"/>
+      <stop offset=".47" stop-color="#173B55"/>
+      <stop offset="1" stop-color="#071725"/>
+    </linearGradient>
+    <radialGradient id="dawn" cx="0" cy="0" r="1" gradientTransform="translate(1454 330) rotate(127) scale(768 957)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFD19B" stop-opacity=".78"/>
+      <stop offset=".34" stop-color="#D8897B" stop-opacity=".34"/>
+      <stop offset=".78" stop-color="#315C75" stop-opacity=".08"/>
+      <stop offset="1" stop-color="#173B55" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blue" cx="0" cy="0" r="1" gradientTransform="translate(260 295) rotate(35) scale(750 610)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3D8EAA" stop-opacity=".55"/>
+      <stop offset=".58" stop-color="#1D526D" stop-opacity=".1"/>
+      <stop offset="1" stop-color="#1D526D" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="waveA" x1="959" y1="569" x2="959" y2="1200" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#91B7BE" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#061523" stop-opacity=".8"/>
+    </linearGradient>
+    <linearGradient id="waveB" x1="1007" y1="708" x2="1007" y2="1200" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2B6A7B" stop-opacity=".46"/>
+      <stop offset="1" stop-color="#071725"/>
+    </linearGradient>
+    <filter id="blur80" x="-20%" y="-30%" width="140%" height="160%">
+      <feGaussianBlur stdDeviation="80"/>
+    </filter>
+    <filter id="blur28" x="-20%" y="-30%" width="140%" height="160%">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="4" seed="12"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 .045"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="1920" height="1200" fill="url(#base)"/>
+  <rect width="1920" height="1200" fill="url(#dawn)"/>
+  <rect width="1920" height="1200" fill="url(#blue)"/>
+  <ellipse cx="1420" cy="350" rx="275" ry="178" fill="#FFD8AA" fill-opacity=".2" filter="url(#blur80)"/>
+  <ellipse cx="1250" cy="527" rx="550" ry="86" fill="#F3B58E" fill-opacity=".13" filter="url(#blur28)"/>
+  <path d="M0 728C234 654 397 690 602 780C818 875 1007 854 1207 729C1440 584 1668 592 1920 739V1200H0V728Z" fill="url(#waveA)"/>
+  <path d="M0 847C244 744 472 770 697 891C882 991 1106 1000 1321 850C1533 702 1730 737 1920 847V1200H0V847Z" fill="url(#waveB)"/>
+  <path d="M0 1010C235 922 432 954 625 1046C844 1150 1085 1155 1302 1048C1517 942 1734 923 1920 1002V1200H0V1010Z" fill="#05131F" fill-opacity=".88"/>
+  <rect width="1920" height="1200" filter="url(#grain)" opacity=".55"/>
+</svg>

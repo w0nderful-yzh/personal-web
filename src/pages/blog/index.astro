@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EntryCard from '../../components/EntryCard.astro';
+import { byNewest, formatDate, visible } from '../../utils/content';
+
+const posts = visible(await getCollection('blog')).sort(byNewest);
+---
+
+<BaseLayout title="Blog" description="整理完成的技术文章。" path="/blog">
+  <section class="shell page-header">
+    <div>
+      <p class="eyebrow">Blog</p>
+      <h1>技术文章</h1>
+    </div>
+    <p>Blog 用来保存已经整理完成、适合完整阅读的内容。短记录和持续更新的材料会放进 Notes。</p>
+  </section>
+
+  <section class="section shell">
+    <div class="content-list">
+      {posts.map((post, index) => (
+        <EntryCard
+          index={index + 1}
+          kind="Article"
+          title={post.data.title}
+          summary={post.data.summary}
+          href={`/blog/${post.id}`}
+          date={formatDate(post.data.publishedAt)}
+          meta="article"
+          tags={post.data.tags}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>
