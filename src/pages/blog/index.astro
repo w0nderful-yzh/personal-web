@@ -8,28 +8,61 @@ const posts = visible(await getCollection('blog')).sort(byNewest);
 ---
 
 <BaseLayout title="Blog" description="整理完成的技术文章。" path="/blog">
-  <section class="shell page-header">
-    <div>
-      <p class="eyebrow">Blog</p>
-      <h1>技术文章</h1>
-    </div>
-    <p>Blog 用来保存已经整理完成、适合完整阅读的内容。短记录和持续更新的材料会放进 Notes。</p>
+  <section class="shell page-hero">
+    <p class="eyebrow fade-in">Blog</p>
+    <h1 class="fade-in fade-in-delay-1">技术文章</h1>
+    <p class="hero-desc fade-in fade-in-delay-2">
+      Blog 用来保存已经整理完成、适合完整阅读的内容。短记录和持续更新的材料放进了 Notes。
+    </p>
   </section>
 
   <section class="section shell">
-    <div class="content-list">
-      {posts.map((post, index) => (
-        <EntryCard
-          index={index + 1}
-          kind="Article"
-          title={post.data.title}
-          summary={post.data.summary}
-          href={`/blog/${post.id}`}
-          date={formatDate(post.data.publishedAt)}
-          meta="article"
-          tags={post.data.tags}
-        />
-      ))}
-    </div>
+    {
+      posts.length > 0 ? (
+        <div class="content-list fade-in fade-in-delay-2">
+          {posts.map((post, index) => (
+            <EntryCard
+              index={index + 1}
+              kind="Article"
+              title={post.data.title}
+              summary={post.data.summary}
+              href={`/blog/${post.id}`}
+              date={formatDate(post.data.publishedAt)}
+              meta={post.data.tags?.[0]}
+              tags={post.data.tags}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="content-list">
+          <p class="empty-state">还没有文章，敬请期待。</p>
+        </div>
+      )
+    }
   </section>
 </BaseLayout>
+
+<style>
+  .page-hero {
+    padding-block: clamp(64px, 9vw, 112px) 44px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .page-hero h1 {
+    max-width: 800px;
+    margin: 0;
+    font-family: Georgia, 'Songti SC', serif;
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+  }
+
+  .hero-desc {
+    max-width: 480px;
+    margin: 20px 0 0;
+    color: var(--text-secondary);
+    font-size: 1.02rem;
+    line-height: 1.8;
+  }
+</style>

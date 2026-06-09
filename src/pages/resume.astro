@@ -5,51 +5,59 @@ import { resume } from '../data/resume';
 
 <BaseLayout title="Resume" description="YZH 的网页简历。" path="/resume">
   <section class="resume shell">
-    <header>
+    <header class="fade-in">
       <div>
         <p class="eyebrow">Resume</p>
         <h1>{resume.name}</h1>
         <p class="role">{resume.role}</p>
       </div>
       <div class="actions no-print">
-        <button class="button-link" onclick="window.print()">打印简历</button>
-        <a class="button-link secondary" href="/resume.pdf">下载 PDF</a>
+        <button class="button-link secondary" onclick="window.print()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 12H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          打印简历
+        </button>
+        <a class="button-link" href="/resume.pdf">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          下载 PDF
+        </a>
       </div>
     </header>
 
-    <div class="resume-grid">
+    <div class="resume-grid fade-in fade-in-delay-1">
       <aside>
         <section>
-          <h2>Contact</h2>
-          <ul class="plain-list">
+          <h2>联系方式</h2>
+          <ul class="contact-list">
             {resume.contacts.map((item) => (
-              <li>
-                <span>{item.label}</span>
-                <a href={item.href}>{item.value}</a>
+              <li class="contact-item">
+                <a href={item.href}>
+                  <span class="contact-label">{item.label}</span>
+                  <span class="contact-value">{item.value}</span>
+                </a>
               </li>
             ))}
           </ul>
         </section>
 
         <section>
-          <h2>Skills</h2>
-          <ul class="skill-list">
-            {resume.skills.map((skill) => <li>{skill}</li>)}
-          </ul>
+          <h2>技术栈</h2>
+          <div class="skill-grid">
+            {resume.skills.map((skill) => <span class="skill-pill">{skill}</span>)}
+          </div>
         </section>
       </aside>
 
       <div class="resume-main">
         <section>
-          <h2>Profile</h2>
-          <p>{resume.summary}</p>
+          <h2>个人概述</h2>
+          <p class="profile-text">{resume.summary}</p>
         </section>
 
         <section>
-          <h2>Experience</h2>
+          <h2>项目经历</h2>
           {resume.experience.map((item) => (
-            <article>
-              <div class="entry-heading">
+            <article class="experience-card">
+              <div class="exp-header">
                 <div>
                   <h3>{item.role}</h3>
                   <p class="org">{item.org}</p>
@@ -64,9 +72,9 @@ import { resume } from '../data/resume';
         </section>
 
         <section>
-          <h2>Education</h2>
+          <h2>教育背景</h2>
           {resume.education.map((item) => (
-            <article class="entry-heading">
+            <article class="exp-header">
               <div>
                 <h3>{item.school}</h3>
                 <p class="org">{item.degree}</p>
@@ -90,30 +98,35 @@ import { resume } from '../data/resume';
     align-items: flex-end;
     justify-content: space-between;
     gap: 32px;
-    padding-bottom: 28px;
+    padding-bottom: 32px;
     border-bottom: 2px solid var(--text);
   }
 
   h1 {
     margin: 0;
+    font-family: Georgia, 'Songti SC', serif;
     font-size: clamp(2.8rem, 8vw, 5rem);
-    font-weight: 700;
-    line-height: 0.95;
-    letter-spacing: -0.03em;
+    font-weight: 400;
+    line-height: 0.94;
+    letter-spacing: -0.04em;
   }
 
   .role {
     margin: 14px 0 0;
     color: var(--blue);
     font-family: var(--mono);
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     font-weight: 600;
-    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
 
   .actions {
     display: flex;
     gap: 10px;
+  }
+
+  .actions .button-link svg {
+    flex-shrink: 0;
   }
 
   button.button-link {
@@ -123,126 +136,166 @@ import { resume } from '../data/resume';
   .resume-grid {
     display: grid;
     grid-template-columns: 260px minmax(0, 1fr);
-    gap: clamp(40px, 7vw, 88px);
-    padding-top: 40px;
+    gap: clamp(48px, 8vw, 100px);
+    padding-top: 48px;
   }
 
   section + section {
-    margin-top: 40px;
+    margin-top: 44px;
   }
 
   h2 {
-    margin: 0 0 16px;
-    padding-bottom: 8px;
+    margin: 0 0 18px;
+    padding-bottom: 10px;
     border-bottom: 1px solid var(--border);
     font-family: var(--mono);
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--text-secondary);
+    letter-spacing: 0.07em;
+    color: var(--text-tertiary);
   }
 
-  .plain-list,
-  .skill-list {
+  .contact-list {
+    display: grid;
+    gap: 6px;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .plain-list {
-    display: grid;
-    gap: 14px;
+  .contact-item a {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: all 200ms ease;
   }
 
-  .plain-list span,
-  .plain-list a {
-    display: block;
+  .contact-item a:hover {
+    background: var(--bg-subtle);
   }
 
-  .plain-list span {
-    margin-bottom: 3px;
-    color: var(--text-tertiary);
+  .contact-label {
     font-family: var(--mono);
-    font-size: 0.65rem;
-    text-transform: uppercase;
+    font-size: 0.62rem;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    letter-spacing: 0.05em;
   }
 
-  .plain-list a {
-    overflow-wrap: anywhere;
-    font-size: 0.85rem;
-    color: var(--blue);
+  .contact-value {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text);
   }
 
-  .skill-list {
+  .skill-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
   }
 
-  .skill-list li {
-    padding: 4px 10px;
+  .skill-pill {
+    padding: 4px 12px;
     border-radius: 999px;
     border: 1px solid var(--border);
     background: var(--bg-subtle);
     font-family: var(--mono);
     font-size: 0.68rem;
+    font-weight: 500;
     color: var(--text-secondary);
+    letter-spacing: 0.02em;
+    transition: all 200ms ease;
   }
 
-  .resume-main section > p,
-  article li {
+  .skill-pill:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+    background: var(--blue-light);
+  }
+
+  .profile-text {
+    color: var(--text-secondary);
+    line-height: 1.9;
+    font-size: 0.98rem;
+    margin: 0;
+  }
+
+  .experience-card {
+    padding: 20px 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.45);
+    transition: all 200ms ease;
+  }
+
+  .experience-card:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow);
+  }
+
+  .experience-card + .experience-card {
+    margin-top: 16px;
+  }
+
+  .experience-card ul {
+    padding-left: 20px;
+    margin: 14px 0 0;
+  }
+
+  .experience-card li {
     color: var(--text-secondary);
     line-height: 1.8;
-  }
-
-  article ul {
-    padding-left: 20px;
-  }
-
-  article li {
     margin-bottom: 6px;
+    font-size: 0.93rem;
   }
 
-  .entry-heading {
+  .exp-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     gap: 24px;
   }
 
-  article + article {
-    margin-top: 28px;
-  }
-
   h3 {
     margin: 0;
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     font-weight: 600;
   }
 
   .org {
     margin: 4px 0 0;
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: 0.88rem;
   }
 
   time {
     flex: none;
     font-family: var(--mono);
-    font-size: 0.7rem;
+    font-size: 0.68rem;
+    font-weight: 500;
     color: var(--text-tertiary);
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--bg-subtle);
   }
 
   @media (max-width: 760px) {
     header,
-    .entry-heading {
+    .exp-header {
       align-items: flex-start;
       flex-direction: column;
     }
 
     .resume-grid {
       grid-template-columns: 1fr;
+      gap: 36px;
+    }
+
+    .experience-card {
+      padding: 16px 18px;
     }
   }
 
@@ -258,6 +311,14 @@ import { resume } from '../data/resume';
     .resume-grid {
       grid-template-columns: 200px 1fr;
       gap: 32px;
+    }
+
+    .experience-card {
+      border: none;
+      padding: 12px 0;
+      background: none;
+      border-bottom: 1px solid #e5e0d6;
+      border-radius: 0;
     }
   }
 </style>

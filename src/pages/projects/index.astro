@@ -8,28 +8,61 @@ const projects = visible(await getCollection('projects')).sort(byNewest);
 ---
 
 <BaseLayout title="Projects" description="项目展示与工程案例。" path="/projects">
-  <section class="shell page-header">
-    <div>
-      <p class="eyebrow">Projects</p>
-      <h1>项目展示</h1>
-    </div>
-    <p>这里记录能代表工程能力的项目：背景、职责、技术决策和复盘都应该比技术栈列表更重要。</p>
+  <section class="shell page-hero">
+    <p class="eyebrow fade-in">Projects</p>
+    <h1 class="fade-in fade-in-delay-1">项目展示</h1>
+    <p class="hero-desc fade-in fade-in-delay-2">
+      这里记录能代表工程能力的项目：背景、职责、技术决策和复盘，比技术栈列表更重要。
+    </p>
   </section>
 
   <section class="section shell">
-    <div class="content-list">
-      {projects.map((project, index) => (
-        <EntryCard
-          index={index + 1}
-          kind="Project"
-          title={project.data.title}
-          summary={project.data.summary}
-          href={`/projects/${project.id}`}
-          date={formatDate(project.data.date)}
-          meta={project.data.status}
-          tags={project.data.technologies}
-        />
-      ))}
-    </div>
+    {
+      projects.length > 0 ? (
+        <div class="content-list fade-in fade-in-delay-2">
+          {projects.map((project, index) => (
+            <EntryCard
+              index={index + 1}
+              kind="Project"
+              title={project.data.title}
+              summary={project.data.summary}
+              href={`/projects/${project.id}`}
+              date={formatDate(project.data.date)}
+              meta={project.data.status}
+              tags={project.data.technologies}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="content-list">
+          <p class="empty-state">还没有项目内容，敬请期待。</p>
+        </div>
+      )
+    }
   </section>
 </BaseLayout>
+
+<style>
+  .page-hero {
+    padding-block: clamp(64px, 9vw, 112px) 44px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .page-hero h1 {
+    max-width: 800px;
+    margin: 0;
+    font-family: Georgia, 'Songti SC', serif;
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    font-weight: 400;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+  }
+
+  .hero-desc {
+    max-width: 480px;
+    margin: 20px 0 0;
+    color: var(--text-secondary);
+    font-size: 1.02rem;
+    line-height: 1.8;
+  }
+</style>

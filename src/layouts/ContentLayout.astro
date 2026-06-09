@@ -12,11 +12,19 @@ type Props = {
 };
 
 const { kind, title, summary, date, path, tags = [], status } = Astro.props;
+
+const kindLabel =
+  kind === 'PROJECT' ? '项目' :
+  kind === 'ARTICLE' ? '文章' : '笔记';
+
+const backHref =
+  kind === 'PROJECT' ? '/projects' :
+  kind === 'ARTICLE' ? '/blog' : '/notes';
 ---
 
 <BaseLayout title={title} description={summary} path={path}>
   <article class="content-page shell">
-    <header>
+    <header class="content-hero fade-in">
       <div class="content-meta">
         <span class="kind-badge">{kind}</span>
         <span class="date">{date}</span>
@@ -30,13 +38,11 @@ const { kind, title, summary, date, path, tags = [], status } = Astro.props;
         </ul>
       )}
     </header>
-    <div class="prose">
+    <div class="prose fade-in fade-in-delay-1">
       <slot />
     </div>
-    <nav class="back no-print" aria-label="返回列表">
-      <a href={kind === 'PROJECT' ? '/projects' : kind === 'ARTICLE' ? '/blog' : '/notes'}>
-        ← 返回{kind === 'PROJECT' ? '项目' : kind === 'ARTICLE' ? '文章' : '笔记'}列表
-      </a>
+    <nav class="back no-print fade-in fade-in-delay-2" aria-label="返回列表">
+      <a href={backHref}>← 返回{kindLabel}列表</a>
     </nav>
   </article>
 </BaseLayout>
@@ -46,10 +52,10 @@ const { kind, title, summary, date, path, tags = [], status } = Astro.props;
     padding-bottom: 80px;
   }
 
-  header {
+  .content-hero {
     max-width: 720px;
-    padding-block: clamp(48px, 8vw, 88px);
-    margin-bottom: 48px;
+    padding-block: clamp(56px, 9vw, 96px);
+    margin-bottom: 56px;
     border-bottom: 1px solid var(--border);
   }
 
@@ -57,22 +63,25 @@ const { kind, title, summary, date, path, tags = [], status } = Astro.props;
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
   }
 
   .kind-badge {
     font-family: var(--mono);
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     font-weight: 600;
-    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 3px 10px;
+    border-radius: 4px;
     color: var(--blue);
-    letter-spacing: 0.05em;
+    background: var(--blue-light);
   }
 
   .date {
     font-family: var(--mono);
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     color: var(--text-tertiary);
+    letter-spacing: 0.03em;
   }
 
   .status-badge {
@@ -80,9 +89,9 @@ const { kind, title, summary, date, path, tags = [], status } = Astro.props;
     font-size: 0.62rem;
     font-weight: 600;
     text-transform: uppercase;
-    padding: 2px 8px;
+    padding: 3px 10px;
     border-radius: 999px;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
   }
 
   .status-badge[data-status="active"] {
@@ -101,8 +110,8 @@ const { kind, title, summary, date, path, tags = [], status } = Astro.props;
   }
 
   .status-badge[data-status="seedling"] {
-    color: var(--green);
-    background: var(--green-light);
+    color: var(--amber);
+    background: var(--amber-light);
   }
 
   .status-badge[data-status="growing"] {
@@ -111,42 +120,50 @@ const { kind, title, summary, date, path, tags = [], status } = Astro.props;
   }
 
   .status-badge[data-status="evergreen"] {
-    color: var(--blue);
-    background: var(--blue-light);
+    color: var(--green);
+    background: var(--green-light);
   }
 
   h1 {
     margin: 0;
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
+    font-family: Georgia, 'Songti SC', serif;
+    font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: -0.03em;
   }
 
   .lead {
     max-width: 640px;
-    margin: 16px 0 20px;
+    margin: 18px 0 22px;
     color: var(--text-secondary);
-    font-size: 1.08rem;
-    line-height: 1.75;
+    font-size: 1.1rem;
+    line-height: 1.78;
+    letter-spacing: 0.005em;
   }
 
   .back {
     width: min(100%, var(--reading));
-    margin: 56px auto 0;
-    padding-top: 20px;
+    margin: 64px auto 0;
+    padding-top: 22px;
     border-top: 1px solid var(--border);
   }
 
   .back a {
     font-family: var(--mono);
-    font-size: 0.78rem;
+    font-size: 0.76rem;
+    font-weight: 500;
     color: var(--text-secondary);
     text-decoration: none;
-    transition: color 200ms ease;
+    letter-spacing: 0.03em;
+    transition: all 200ms ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
   }
 
   .back a:hover {
     color: var(--blue);
+    transform: translateX(-3px);
   }
 </style>

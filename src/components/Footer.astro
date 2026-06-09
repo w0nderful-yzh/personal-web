@@ -4,14 +4,18 @@ import { profile } from '../data/profile';
 
 <footer>
   <div class="shell footer-inner">
-    <div class="footer-left">
-      <small>© {new Date().getFullYear()} {profile.name}. Built with Astro.</small>
+    <div class="footer-brand">
+      <span class="footer-mark" aria-hidden="true">
+        <i></i><i></i><i></i><i></i>
+      </span>
+      <small>© {new Date().getFullYear()} {profile.name} · Built with Astro</small>
     </div>
     <div class="footer-right">
       <ul>
         {profile.links.map((link) => (
           <li><a href={link.href}>{link.label}</a></li>
         ))}
+        <li class="divider" aria-hidden="true">·</li>
         <li><a href="/rss.xml">RSS</a></li>
       </ul>
     </div>
@@ -32,27 +36,62 @@ import { profile } from '../data/profile';
     gap: 24px;
   }
 
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .footer-mark {
+    display: grid;
+    width: 22px;
+    height: 22px;
+    grid-template-columns: repeat(2, 4px);
+    grid-template-rows: repeat(2, 4px);
+    gap: 2px;
+    place-items: center;
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.08);
+    opacity: 0.5;
+  }
+
+  .footer-mark i {
+    width: 4px;
+    height: 4px;
+    border-radius: 1px;
+    background: rgba(255, 255, 255, 0.7);
+  }
+
   small {
-    color: rgba(255, 255, 255, 0.4);
+    color: rgba(255, 255, 255, 0.38);
     font-family: var(--mono);
-    font-size: 0.68rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.02em;
   }
 
   ul {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
+    align-items: center;
+    gap: 14px;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
+  .divider {
+    color: rgba(255, 255, 255, 0.18);
+    user-select: none;
+    pointer-events: none;
+  }
+
   a {
     font-family: var(--mono);
-    font-size: 0.72rem;
-    color: rgba(255, 255, 255, 0.54);
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);
     text-decoration: none;
-    text-transform: uppercase;
+    letter-spacing: 0.03em;
     transition: color 200ms ease;
   }
 
@@ -64,7 +103,11 @@ import { profile } from '../data/profile';
     .footer-inner {
       flex-direction: column;
       align-items: flex-start;
-      gap: 16px;
+      gap: 14px;
+    }
+
+    ul {
+      gap: 12px;
     }
   }
 </style>

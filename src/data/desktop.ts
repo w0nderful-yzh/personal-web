@@ -28,12 +28,6 @@ export const desktopApps = [
     icon: '/images/desktop/icon-notes.svg',
   },
   {
-    label: 'Games',
-    description: '休息一下',
-    href: '/playground',
-    icon: '/images/desktop/icon-games.svg',
-  },
-  {
     label: 'Resume',
     description: '个人简历',
     href: '/resume',
